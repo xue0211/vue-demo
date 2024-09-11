@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="red">
         {{ n }}
         <button @click="add">+1</button>
     </div>
@@ -7,8 +7,21 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            n: 0
+        }
+    },
+    methods: {
+        add() {
+            this.n += 1
+        }
+    }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.red {
+    color: red;
+}
+</style>
