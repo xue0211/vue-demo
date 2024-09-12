@@ -1,11 +1,27 @@
-// import Vue from 'vue'
-// import App from './App.vue'
+console.log(window.Vue)
 
-// Vue.config.productionTip = false
+const Vue = window.Vue
+
+Vue.config.productionTip = false
+
 import Demo from "./Demo.vue"
+
 new Vue({
-  el: '#app',
-  render(h) {
-    return h(Demo)
+  components: { Demo },
+  data:{
+    visible: true
+  },
+  template: `
+  <div>
+     <button @click="toggle">toggle</button>
+     <hr>
+     <Demo v-if="visible === true"/>
+  </div>
+  `,
+  methods:{
+    toggle(){
+      this.visible = !this.visible
+    }
   }
-});   
+  //render: h => h(Demo)
+}).$mount('#xue')
