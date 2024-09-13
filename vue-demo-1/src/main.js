@@ -9,19 +9,17 @@ import Demo from "./Demo.vue"
 new Vue({
   components: { Demo },
   data:{
-    visible: true
+    n: 0
   },
   template: `
   <div>
-     <button @click="toggle">toggle</button>
-     <hr>
-     <Demo v-if="visible === true"/>
+     {{n}}
+     <Demo :fn=" add "/>
   </div>
   `,
   methods:{
-    toggle(){
-      this.visible = !this.visible
+    add(){
+      this.n += 1
     }
-  }
-  //render: h => h(Demo)
+  },
 }).$mount('#xue')
