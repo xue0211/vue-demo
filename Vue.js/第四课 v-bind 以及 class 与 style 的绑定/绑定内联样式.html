@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 绑定内联样式 键代表 style 的属性，值代表属性对应的值 <br>  -->
+    <!-- 切记：vue 中只要是大写字母，都会给你转换成 - 加 小写 -->
+    <!-- 如 fontSize -> font-size ; hyHUb -> hy-h-ub -->
+    style 对象语法 <br>
+    <div id="app">
+        <div v-bind:style="{'color':color , 'fontSize':fontSize + 'px'}">
+            绑定内联样式--对象语法
+        </div> <br>
+        style 数组语法 <br>
+        <div v-bind:style="[styleA , styleB]">
+            绑定内联样式--数组语法
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                color: 'blue',
+                fontSize: 20,
+                styleA: {
+                   color: 'green',
+                   
+                },
+                styleB: {
+                    fontSize: 18 + 'px',
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 改变数组的方法 -->
+        <!-- 1. app.arr.push('花花') -> 在数组末尾添加元素：花花 -->
+        <!-- 2. app.arr.pop() -> 将数组的最后一个元素移除：pencil，返回值是被移除的元素 -->
+        <!-- 3. app.arr.shift() -> 删除数组的第一个元素：book，返回值是被移除的元素 -->
+        <!-- 4. app.arr.unshift('花花') -> 在数组的头部添加元素，返回值是添加元素后的数组长度 -->
+        <!-- 5.1 app.arr.splice(1,1) -> 删除元素操作：第一个参数-预备删除的元素的index, 第二个参数-预备删除的元素长度, -->
+        <!-- 返回值是被删除的元素 -> pen -->
+        <!-- 5.2 app.arr.splice(1,1,'花花') -> 添加元素操作：第一个参数-预备添加的元素的index，即元素pen的前面，第二个参数-预备删除的元素长度， -->
+        <!-- 第三个参数：预备添加的元素，返回值是被删除的元素。操作结果：'book', '花花', 'pencil', 返回值是 pen -->
+        <!-- 6. app.arr.sort() -> 排序-->
+        <!-- 7. app.arr.reverse() -> 翻转  -->
+        <div v-for="study in arr">{{study}}</div>
+        <button @click="sortArr">点我排序</button> <br>
+        <button @click="reverseArr">点我进行数组翻转</button>
+        <hr>
+        改变数组的指定项 <br>
+        无效方法：
+        <button @click="changeFirst">点我改变数组的第一个元素</button> <br>
+        原因：Vue 检测不到 <br>
+        改变数组的长度 <br>
+        无效方法：
+        <button @click="changeArrLength">点我改变数组的长度</button> <br>
+        原因：Vue 检测不到 <br>
+        <hr>
+        返回字符串中含有'oo'的元素 -> 计算属性 <br>
+        {{matchOO}}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                arr: ['book', 'pen', 'pencil']
+            },
+            computed: {
+                matchOO: function () {
+                    // 参数代表要过滤的每一项
+                    return this.arr.filter(function (book) {
+                        return book.match(/oo/);
+                    })
+                }
+            },
+            methods: {
+                // 利用 sort 方法进行排序
+                sortArr: function () {
+                    this.arr.sort(function (a, b) {
+                        // 按元素长度从小到大排
+                        return a.length - b.length
+                    })
+                },
+                reverseArr: function () {
+                    this.arr.reverse()
+                },
+                changeFirst: function () {
+                    this.arr[0] = '花花'
+                },
+                changeArrLength: function () {
+                    this.arr.length = 1;
+                }
+            }
+        })
+        // 改变数组的第一项： Vue.set()函数 是一个全局方法，第一个参数是指定的数组，第二个参数是要改变的元素的index，
+        // 第三个参数是新的值
+        Vue.set(app.arr, 1, '花花')
+        // 改变数组的长度: splice(a,b),第一个参数是元素的index, 第二个参数是要删除的元素的个数，如果没写就把后面的元素全删除
+        app.arr.splice(3, 1)
+    </script>
+</body>
+
+</html>

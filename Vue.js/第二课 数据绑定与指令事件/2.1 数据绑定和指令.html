@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+    <!--  {{}}文本插值
+    用法：显示vue实例data对象中属性的值，可以进行简单加减运算，三元运算
+         文本插值的形式，支持单个表达式，不支持语句和流控制-->
+        <hr>
+       {{msg}} <br>
+       {{ 6 + 6 }} <br>
+       {{ 6 > 3 ? msg : a}} <br>
+       <!-- 不支持 {{if(6>3){}}}    属于if 语句-->
+       <!-- 不支持 {{var a = b}}    属于多行表达式-->
+    </div>
+
+    <!--环境搭建-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            // element,用于指定页面中已经存在的DOM元素，挂载到DOM中，可以是标签也可以是css语法
+            el: "#app",
+            // 用于声明应用内需要双向绑定的数据
+            data:{
+                msg:"vue学习开始了",
+                a : 2
+            },
+            created:function(){
+                //alert('我是vue实例，创建完成，还未挂载到DOM')
+            },
+            mounted:function(){
+                //alert('我是vue实例，已经挂载到DOM，可以进行渲染了')
+            }
+        })
+        //-------------------------访问属性--------------------
+        // 访问 vue实例的属性
+        console.log(app.$el)
+        console.log(app.$data)
+        // 访问 data中的属性
+        console.log(app.msg)
+        console.log(app.a)
+    </script>
+</body>
+</html>

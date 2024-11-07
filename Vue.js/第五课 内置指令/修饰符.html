@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <hr>
+        stop用法： 阻止单机事件向上冒泡 <br>
+        此时属于向上冒泡：<br>
+        <div @click="divClick" style="height: 100px; width: 100px; background-color: brown;">
+            <button @click="btnClick">点击</button>
+        </div>
+        <br>
+        阻止button向上冒泡：<br>
+        <div @click="divClick" style="height: 100px; width: 100px; background-color: brown;">
+            <button @click.stop="btnClick">点击</button>
+        </div>
+        <hr>
+        prevent用法：提交事件并且不重载页面 <br>
+        每次提交表单都会重载页面 <br>
+        <form action="">
+            <button type="submit">提交</button>
+        </form>
+        <br>
+        阻止页面重载：<br>
+        <form action="" @click.prevent="No">
+            <button type="submit">提交</button>
+        </form>
+        <hr>
+        self用法：只会在作用在元素本身而非子元素的时候被调用,即父元素执行，子元素不执行 <br>
+        点击 button 的时候，不会执行 div 的 click 方法
+        <div @click.self="divClick" style="height: 100px; width: 100px; background-color: brown;">
+            <button @click="btnClick">点击</button>
+        </div>
+        <hr>
+        once方法：只执行一次的方法 <br>
+        <button @click="onceMethod">执行无限次</button> <br><br>
+        <button @click.once="onceMethod">只执行一次</button>
+        <hr>
+        监听键盘事件 <br><br>
+        监听是否按下键盘 enter 键 -> 指定的 keyCode<br>
+        <input type="text" @keyup.13="submitMethod"> <br>
+        其他写法: .enter / .tab / .delete <br> 
+        <input type="text" @keyup.enter="submitMethod"> <br>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data:{
+
+            },
+            methods:{
+                divClick:function(){
+                    alert('div被点击了')
+                },
+                btnClick:function(){
+                    alert('button被点击了')
+                },
+                No:function(){
+                    alert('我不要重载，页面不会刷新')
+                },
+                onceMethod:function(){
+                    alert('执行多少次了')
+                },
+                submitMethod:function(){
+                    alert('您按下了enter键')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

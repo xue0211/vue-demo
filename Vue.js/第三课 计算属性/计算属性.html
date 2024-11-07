@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+</head>
+
+<body>
+    <div id="demo">
+        {{text}} <br>
+        <!-- 将字符串以','分割成数组；将数组进行反转；将数组以','连接变回字符串 -->
+        {{text.split(',').reverse().join(',')}} <br>
+        <!-- 逻辑过长就会变得臃肿，难以维护，所以遇到复杂的逻辑时，应当使用计算属性 -->
+         下面是使用计算属性得到的 <br>
+        {{reverseText}}
+        <hr>
+        <!-- 无论渲染与否，只要计算属性依赖的数据未发生变化，就永远不变。now()无依赖，则永远不变  -->
+        计算属性的缓存： <br>
+        {{now}}         <br>
+        <!-- 注意: 只要页面重新渲染，methods 就会重新执行，若没有重新渲染，则不会重新执行 -->
+        通过 methods 方法拿到时间戳：<br>
+        {{thisTime()}}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script type="text/javascript">
+        // 需求：'123,456,789' 变成 789,456,123
+        var app = new Vue({
+            el: '#demo',
+            data: {
+                text: '123,456,789'
+            },
+            // 定义计算属性
+            computed: {
+                // 如果计算属性直接跟一个 function ，默认就是 getter 函数
+                reverseText: function () {
+                    return this.text.split(',').reverse().join(',')
+                },
+                now: function(){
+                    return Date.now()
+                }
+            },
+            methods:{
+                thisTime: function(){
+                    return Date.now()
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

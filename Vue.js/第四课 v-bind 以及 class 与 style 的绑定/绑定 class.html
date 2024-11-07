@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .divStyle {
+            background-color: tomato;
+            width: 100px;
+            height: 100px;
+        }
+
+        .borderStyle {
+            border: 10px solid plum
+        }
+
+        .btnColor1 {
+            background-color: red;
+        }
+
+        .btnColor2 {
+            background-color: purple;
+        }
+
+        .actives {
+            background-color: burlywood;
+        }
+
+        .active {
+            background-color: hotpink;
+            width: 200px;
+            height: 200px;
+        }
+
+        .error {
+            border: 10px solid red;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 绑定 class -->
+    <div id="app">
+        <hr>
+        绑定 calss 对象语法 : 对象的键是类名，值是布尔值 <br><br>
+        <div :class="{divStyle:isActive , borderStyle:isBorder}"></div>
+        <hr>
+        <input type="button" value="点击我来切换颜色吧" v-bind:class="{btnColor1:isRed, btnColor2:isPurple}"
+            v-on:click="changeColor">
+        <hr>
+        绑定计算属性 <br><br>
+        <div :class="classNames">你好</div>
+        <hr>
+        绑定 class 数组语法：数组中的成员直接对应类名 <br><br>
+        <div :class="[activeClass , errorClass]" style="text-align: center;">我属于数组绑定 class </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        // 需求：点击一个按钮，来回切换背景颜色
+        var app = new Vue({
+            el: "#app",
+            data: {
+                isActive: true,
+                isBorder: false,
+                isRed: true,
+                isPurple: false,
+                activeClass: 'active',
+                errorClass: 'error'
+            },
+            computed: {
+                classNames: function () {
+                    return {
+                        actives: this.isActive && this.isBorder
+                    }
+                }
+            },
+            methods: {
+                changeColor: function () {
+                    if (this.isRed) {
+                        this.isPurple = !this.isPurple
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
