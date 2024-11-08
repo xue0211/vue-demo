@@ -1,20 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <div id="app"></div>
+    <div id="app" style="margin-bottom: 300px;">
+        v-model的用法 <br>
+        <hr>
+        input 和 textarea 的用法：
+        <input type="text" v-model="value"> <br>
+        {{value}}
+        <br>
+        <!-- 注意：表单控件所显示的值只依赖于所绑定的数据，不再关心初始化时插入的 value -->
+        <textarea name="" id="" v-model="msg">我是多行文本的初始化值</textarea>
+        <br>
+        {{msg}}
+        <hr>
+        单选框: <br>
+        单个单选框：只能使用 v-bind 绑定，v-model 不生效
+        <input type="radio" name="" id="" v-bind:checked="oneRadio"> <br>
+        -------------------------------------------------------------<br>
+        多个单选框：v-model绑定的是单选框的value值 <br>
+        华立风<input type="radio" name="黑煤球" value="华立风" v-model="checkName"> <br>
+        华绒绒<input type="radio" name="黑煤球" value="华绒绒" v-model="checkName"> <br>
+        十辰宇<input type="radio" name="黑煤球" value="十辰宇" v-model="checkName"> <br>
+        现在正在选中的是---------{{checkName}}
+        <hr>
+        复选框：<br>
+        单个复选框: v-bind版 <input type="checkbox" v-bind:checked="oneRadio"> <br>
+        单个复选框: v-model版 <input type="checkbox" v-model:checked="oneRadio"> <br>
+        -------------------------------------------------------------<br>
+        多个复选框：v-model绑定的是复选框的value，v-model需要绑定一个数组。<br>
+        如果绑定的是字符串，运行时，会自动转化为 true 使得复选框全选。<br>
+        华立风<input type="checkbox" value="华立风" v-model="checked">
+        华绒绒<input type="checkbox" value="华绒绒" v-model="checked">
+        十辰宇<input type="checkbox" value="十辰宇" v-model="checked"> <br>
+        现在选择了{{checked}}
+        <hr>
+        下拉框： <br>
+        单选的下拉框：所绑定的value值初始化可以是字符串或数组。<br>
+        v-model 绑定的是value值。 <br>
+        <select v-model="selected">
+           <option value="华立风">华立风</option>
+           <option value="华绒绒">华绒绒</option>
+           <option value="十辰宇">十辰宇</option>
+        </select> <br>
+        现在选中的是 {{selected}}
+        -------------------------------------------------------------<br>
+        <br><br><br>
+        多选的下拉框：所绑定的value值初始化可以是字符串或数组。<br>
+        <select v-model="selectedMul" multiple>
+            <option value="华立风">华立风</option>
+            <option value="华绒绒">华绒绒</option>
+            <option value="十辰宇">十辰宇</option>
+         </select> <br>
+         现在选中的是 {{selectedMul}} <br>
+         <hr>
+         总结：<br>
+         如果是单选，初始化最好给定字符串（空字符串即可），因为v-model绑定的是静态字符串或布尔值。<br>
+         如果是多选，初始化最好给定数组（空数组即可）。<br>
+         <hr style="color: darkred;">
+         绑定值：<br>
+         单选按钮：<input type="radio" v-model="picked" v-bind:value="value"> {{picked}} <br>
+         只需要用v-bind给单选按钮绑定一个value值，此时，v-model绑定的就是他的value值（手动点击即可获取）。<br>
+         -------------------------------------------------------------<br>
+         复选框按钮：选中-value值A，不选中-value值B, v-model绑定复选框的value值
+         <input type="checkbox" v-model="toggle" :true-value="trueValue" v-bind:false-value="falseValue"> <br>
+         {{toggle}} <br>
+         {{toggle == trueValue}} <br>
+         {{toggle == falseValue}}
+         -------------------------------------------------------------<br>
+         下拉框：在select上绑定value对option并无影响(v-model绑定的还是option上的value值) <br>
+         <select v-model="selectValue" :value="{num: 08042}">
+            <option value="华立风">华立风</option>
+            <option value="华绒绒">华绒绒</option>
+            <option value="十辰宇">十辰宇</option>
+         </select> <br>
+        现在选中的是----------------{{typeof selectValue}}->{{selectValue}}
+        <br><br>
+        下拉框：在option上绑定value,当option被选中时，v-model会绑定option的值
+        <select v-model="valueSelect">
+            <option :value="{name: '花傲天'}">华晨宇</option>
+         </select> <br>
+        现在选中的是----------------{{typeof valueSelect}}->{{valueSelect.name}}
+        -------------------------------------------------------------<br><br>
+        修饰符：<br>
+        .lazy修饰符 <br>
+        正常版 <br> v-model实时渲染，你在input输入的同时，输入框也在实时同步输入
+        <input type="text" v-model="inputString"> {{inputString}} <br>
+        .lazy版 <br> 懒加载，你在input输入完成敲回车或者鼠标点击别处使得input失去焦点时，输入框才同步
+        <input type="text" v-model.lazy="lazyString">  {{lazyString}}
+        -------------------------------------------------------------<br><br>
+        .number修饰符 <br>
+        一般情况下 <br>
+        <input type="text" v-model="isString"> {{typeof isString}} <br>
+        .number版  <br>  将输入的字符串转化为 number类型 <br>
+        <input type="text" v-model.number="isNumber"> {{typeof isNumber}} <br>
+        -------------------------------------------------------------<br><br>
+        .trim修饰符 <br>
+        一般情况下 <br>  将输入的字符串每个字转化为数组的一项，并显示数组长度 <br>
+        <input type="text" v-model="isBlank">  <br>
+        {{isBlank.split('').length}} <br>
+        .trim版 自动过滤输入过程中首尾输入的空格 <br>
+        <input type="text" v-model.trim="isTrim"> <br>
+        {{isTrim.split('').length}}
+ 
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script>
         var app = new Vue({
             el: "#app",
-            data:{
-
+            data: {
+                value: '',
+                msg: '',
+                oneRadio: true,
+                checkName: '',
+                checked: [],
+                selected:'',
+                selectedMul:[],
+                picked:true,
+                value:'08042',
+                toggle:true,
+                trueValue:'我被选中啦',
+                falseValue:'我没有被选中',
+                selectValue:'',
+                valueSelect:'',
+                inputString:'',
+                lazyString:'',
+                isString:'',
+                isNumber:'',
+                isBlank:'',
+                isTrim:''
+                
             }
         })
     </script>
 </body>
+
 </html>
