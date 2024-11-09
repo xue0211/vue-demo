@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    在父组件向子组件传递消息 <br>
+    <div id="app" style="border: 2px solid brown; height: 460px;">
+        <h5 style="text-align: center;">我是父组件</h5>
+        v-bind使用与否的区别: 也可以使用 boolean，object 进行测试<br>
+        <child-component msg1="[3,6,9]"></child-component>-->字符串"[3,6,9]" <br> 
+        <child-component :msg1="[3,6,9]"></child-component>-->数组[3,6,9] <br>
+        <hr>
+        使用v-bind进行动态绑定父组件来的内容，即动态绑定props的值，把parentMsg的值传给子组件 bind-component <br>
+        <!-- v-model绑定的是 父组件 app 中的 data数据 -->
+        <input type="text" v-model="parentMsg"> <br><br>
+        <bind-component v-bind:msg2="parentMsg"></bind-component> 
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data:{
+               parentMsg: '欢迎回家'
+            },
+            components:{
+                'child-component':{
+                    // 使用props来从父组件接收参数，在props中定义的属性，都可以在组件中直接使用
+                    // 注意：props中的数据来自父级，组件中data return的数据来自组件自身
+                    // props 和 组件中data的作用域是组件本身,可以在组件的 template，computed, methods中直接使用
+                    props:['msg1'],
+                    template: '<div style="border: 2px solid purple; height: 80px;">{{msg1.length}}</div>',
+                    data:function(){
+
+                    },
+                    methods:{}
+                },
+                'bind-component':{
+                    props:['msg2'],
+                    template:'<div style="border: 2px solid orange; height: 40px">{{msg2}}</div>'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

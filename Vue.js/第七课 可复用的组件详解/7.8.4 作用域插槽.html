@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        作用域插槽：获取子组件的数据 <br><br>
+        <my-component>
+            <template slot="abc" slot-scope="key">
+               {{key.text}}
+            </template>
+        </my-component>
+        注意：template模板是不会被渲染的，被渲染的只是里面的内容 
+        <hr>
+        现在不仅仅局限于 template标签，任意标签都可以实现作用域插槽。 <br>
+        <my-component>
+            <span slot="abc" slot-scope="hi">
+               {{hi.text}}
+            </span>
+        </my-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.component('my-component',{
+            template: 
+            `
+            <div>
+               <slot text="我是来自子组件的数据" name="abc">
+                </slot> 
+            </div>
+            `
+        })
+        var app = new Vue({
+            el: '#app',
+            data:{}
+        })
+    </script>
+</body>
+</html>

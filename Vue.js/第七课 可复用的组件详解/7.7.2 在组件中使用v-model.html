@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            border: 2px solid goldenrod;
+            width: 600px;
+            height: 400px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        您现在的银行卡余额是：{{total}} <br>
+        <!-- change 是自定义事件 -->
+        <!-- <child-component v-on:change="handleTotal"></child-component> <br> -->
+         使用 v-model 实现子组件向父组件传递数据 <br><br>
+         <son-component v-model="total"></son-component> <br>
+         理解 v-model 的原理 <br>
+         <input type="text" v-model="text"> <br>
+         {{text}} <br><br>
+         v-model做了两件事： <br>
+         1.v-bind 绑定一个 value 属性 <br>
+         2.v-on 指令给当然元素绑定一个 input 事件 <br><br>
+         v-model 通过 v-bind 绑定了 total 的 value 值 ，并给 total 绑定了一个 input 事件 <br>
+         当触发 input事件时，input 事件会自动接收传递过来的参数，并赋值给已经绑定的 total。
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        // 需求：通过加号和减号按钮来给父组件传递数据
+        // Vue.component('child-component', {
+        //     template: `<div>
+        //                    <button @click="handleIncrease">+1000</button>
+        //                </div>`,
+        //     data: function () {
+        //         return {
+        //             count: 2000
+        //         }
+        //     },
+        //     methods: {
+        //         handleIncrease: function () {
+        //             this.count = this.count + 1000
+        //             this.$emit('change', this.count)
+        //         },
+        //     }
+        // })
+        Vue.component('son-component', {
+            template: `<div>
+                           <button @click="handleIncrease">+1000</button>
+                       </div>`,
+            data: function () {
+                return {
+                    count: 2000
+                }
+            },
+            methods: {
+                handleIncrease: function () {
+                    this.count = this.count + 1000
+                    // 使用 v-model 实现，子组件向父组件传递数据
+                    // 接收一个 value 值 (total)
+                    // 在有新的 value 值（this.count）时触发 input 事件，进行更新
+                    this.$emit('input', this.count)
+                },
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total: 2000,
+                text: 2333
+            },
+            // methods:{
+            //     handleTotal:function(value){
+            //         // 此处的形参 value 代表的就是从子组件中传来的数据
+            //         this.total = value
+            //     }
+            // }
+        })
+    </script>
+</body>
+
+</html>

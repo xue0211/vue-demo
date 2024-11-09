@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        父组件模板的内容在父组件作用域内编译，<br>
+        子组件模板的内容在子组件作用域内编译。<br>
+        这是父组件的作用域 <br>
+        <my-component v-show="childShow">
+            <!-- 这个 message 是父组件的 -->
+            {{message}}
+        </my-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.component('my-component',{
+            // 这是子组件的作用域
+            template: '<div>我是一个子组件</div>',
+            data:function(){
+                return{
+                    message: '我是子组件的内容',
+                    childShow: false
+                }
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data:{
+                message: '我是父组件的内容',
+                childShow: true
+            }
+        })
+    </script>
+</body>
+</html>

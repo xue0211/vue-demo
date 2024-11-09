@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <hr>
+    技巧1：推荐使用小写字母 + '-' 的方式进行组件命名。(也可以只是小写字母)<br>
+    技巧2：template中的内容必须被一个/多个DOM元素包裹。(div元素/span元素 ...)<br>
+    技巧3：在组件中，可以使用 template, data, methods, computed等多个选项。(和Vue实例类似)<br>
+    技巧4：组件中的 data 必须是一个方法：data:function(){} / data(){} , 不能是对象：data:{} <br>
+    Vue实例中的 data 可以是对象 / 方法 <br><br>
+    <div id="app" style="border: 2px solid red;">
+        <app-component></app-component> <br>
+        <hr>
+        Bug:两个按钮同时被触发,因为两个按钮共用了一个 count <br>
+        <button @click="plus">{{count}}</button>
+        <button @click="plus">{{count}}</button>
+        <hr>
+        组件实现：每次点击只触发一个按钮, 每个按钮都有一个独属于自己的 count<br>
+        <btn-component></btn-component>
+        <btn-component></btn-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data:{
+               count:1
+            },
+            components:{
+                'app-component':{
+                    template: '<div>我是app局部注册的一个组件</div>'
+                },
+                'btn-component':{
+                    template: '<button @click="count++">{{count}}</button>',
+                    data:function(){
+                        return {
+                            count: 0
+                        }
+                    }
+                }
+            },
+            methods:{
+                plus:function(){
+                    this.count++;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

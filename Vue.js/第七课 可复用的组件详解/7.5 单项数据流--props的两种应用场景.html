@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            border: 2px solid goldenrod;
+            width: 600px;
+            height: 300px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        应用场景1：父组件传递初始值给子组件，子组件接收，在自己的作用域中可以随意使用和更改。<br><br>
+        <my-component msg="我是父组件传递过来的数据"></my-component> <br><br>
+        <hr>
+        应用场景2：props作为需求被改变的原始值传入。<br><br>
+        <!-- 需求: 通过input中输入的数据直接改变div的宽度 -->
+         目前被传递的 width 仅仅是一个数值 -> 需要使用计算属性，来实现其功能  <br>  
+         <input type="text" v-model="width"> <br>
+         <width-component :width="width"></width-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        // 全局注册组件，于app而言，这是子组件
+        // 需求1：将传递进来的数据作为初始值进行保存
+        Vue.component('my-component', {
+            props: ['msg', 'width'],
+            template: '<div>{{ownMsg}}</div>',
+            data: function () {
+                return {
+                    // props中的值可以通过 this.xxx 方式来获取
+                    // 这样写的好处：ownMsg 是子组件自己的属性，以后只维护它即可。
+                    ownMsg: this.msg
+                }
+            }
+        }),
+        // 需求2：将传递进来的数据通过计算属性进行重新计算
+        Vue.component('width-component',{
+            props:['width'],
+            template:'<div :style="style"></div>',
+            computed:{
+                style:function(){
+                    return{
+                        width: this.width + 'px',
+                        height: '30px',
+                        background: 'gold'
+                    }
+                }
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                width: 0
+            },
+          
+        })
+    </script>
+</body>
+
+</html>

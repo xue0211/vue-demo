@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+      <a-component ref="a"></a-component>
+      <b-component ref="b"></b-component>
+      <hr>
+      父链---this.$parent <br>
+      <child-component ref="c"></child-component>--- 
+      {{msg}} <br>
+      <hr>
+      子链---this.$child <br>
+      <button @click="getChildDate">我是父组件的按钮，我要拿到子组件的内容</button>---
+      {{formChild}}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.component('a-component',{
+            template: '<div><button v-on:click="handle">点击我向B组件传递数据</button></div>',
+            data:function(){
+                return{
+                    aaa: '我是来自A组件的内容',
+                    msg: '我是A中的msg'
+                }
+            },
+            methods:{
+                handle:function(){
+                    // 在子组件中访问根组件
+                    this.$root.bus.$emit('listen', this.aaa)
+
+                }
+            }
+        })
+        Vue.component('b-component',{
+            template: '<div></div>',
+            data:function(){
+              return{
+                msg: '我是B中的msg'
+              }
+            },
+            created:function(){
+                // A组件在实例创建的时候就监听事件  listen事件
+                this.$root.bus.$on('listen', function(value){
+                    // value 就是 this.aaa
+                     alert(value)
+                })
+            }
+        })
+        Vue.component('child-component',{
+            template: '<button @click="setFatherDate">点我修改父组件的数据</button>',
+            data:function(){
+                msg: '我是C中的msg'
+            },
+            methods:{
+                setFatherDate: function(){
+                    // this.$parent 可以拿到父组件 data 中定义的属性
+                    this.$parent.msg = '父组件数据已经被子组件修改啦'
+                }
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data:{
+                // bus 中介
+                bus: new Vue(),
+                msg: '数据还未被修改',
+                formChild: '还未拿到指定子组件的内容'
+            },
+            methods:{
+                getChildDate:function(){
+                // 用来拿子组件中的内容
+               this.formChild = this.$refs.a.msg;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

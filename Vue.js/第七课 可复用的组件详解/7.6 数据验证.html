@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            border: 2px solid goldenrod;
+            width: 600px;
+            height: 500px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        1.在 html 中，myMessage 和 mymessage 是一致的，即不区分大小写，但是JS是区分大小写的，
+        这样'myMessage'命名组件，会出现html 和 JS 组件不匹配的情况，所以组件必须使用这种'my-message'
+        命名方式。简而言之，html 中使用组件[如父组件要给子组件传递数据]，必须是 'my-message' 方式。<br>
+        2.在 template 中，必须使用 'myMessage'命名。<br>
+        3.在 props 中， 'myMessage' 和 'my-message' 都可以。 <br>
+        4.在 data 中，必须使用 'myMessage'。 <br>
+        5.简单讲： html 中使用 'my-message'， JS中使用 'myMessage' <br><br>
+        <my-component my-message="向阳而生"></my-component> <br>
+        <my-component my-name="花花"></my-component>
+        <hr>
+        <input type="text" v-model="d">
+        <type-component :a="a" :b="b" :c="c" :d="d" :e="e" :f="f" :g="g"></type-component>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.component('my-component', {
+            props: ['myMessage', 'my-name'],
+            template: '<div>{{myMessage}} {{name}}</div>',
+            data: function () {
+                return {
+                    name: this.myName
+                }
+            }
+        })
+        Vue.component('typeComponent', {
+            // 对 props 传递过来的数据进行类型校验，prop使用对象形式：{}
+            props:{
+                a: String,
+                b: [String, Number],
+                // 必须是 boolean 类型，默认是type--required--default
+                c:{
+                    type: Boolean,
+                    default: true
+                },
+                d:{
+                    // 如果 required: true, 则必须有 :d="d"
+                    type: String,
+                    required: true
+                },
+                e:{
+                    type: Array,
+                    default: function(){
+                        return [414]
+                    }
+                },
+                // 自定义一个验证函数
+                f:{
+                    validator: function(value){
+                        return value>10
+                    }
+                },
+                g:{
+                    type: Function
+                }
+            },
+            template: '<div>{{a}}---{{b}}--{{c}}--{{d}}--{{e}}</div>'
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                a: '1',
+                b: 666,
+                c: '',
+                d: '123',
+                e: [2333],
+                f: 88,
+                g: console.log()
+            }
+        })
+    </script>
+</body>
+
+</html>

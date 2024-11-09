@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的使用方法</title>
+</head>
+
+<body>
+    使用全局组件: <br>
+    <div id="app1" style="border: 2px solid darkgoldenrod;">
+        <app1-component></app1-component> <br>
+        为什么组件没有被 table 标签包裹住？<br>
+        因为  html规定，table 中只能有 tr, td, tbody 这些元素 <br>
+        <table>
+            <app1-component></app1-component> <br>
+        </table>
+        如何解决这一问题？<br>
+        <table>
+            <tbody is="app1-component"></tbody>
+        </table> <br>
+    </div> <br>
+    相当于 <br>
+    <div id="app1">
+        <div>我是一个全局组件</div>
+    </div>
+    <hr>
+    使用局部组件: <br>
+    <div id="app2" style="border: 2px solid aqua; margin-top: 10px;">
+        全局组件： <br>
+        <app1-component></app1-component> <br>
+        局部组件： <br>
+        <app2-component></app2-component> <br>
+        <hr>
+        html标签的受限 <br>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        // Vue.component('tag',{
+        //     template:'<div></div>'
+        // })
+        // 全局注册组件
+        // 优点：所有的Vue实例都可以使用它
+        // 缺点：权限太大，容错率降低
+        Vue.component('app1-component', {
+            template: '<div>我是一个全局组件</div>'
+        })
+        var app1 = new Vue({
+            el: '#app1'
+        })
+        // 局部注册组件
+        var app2 = new Vue({
+            el: '#app2',
+            components: {
+                'app2-component': {
+                    template: '<div>我是app2注册的局部组件</div>'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

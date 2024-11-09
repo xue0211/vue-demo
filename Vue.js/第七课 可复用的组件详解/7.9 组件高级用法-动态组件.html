@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        component元素：用来动态的挂载不同的组件，通过 is特性实现 <br>
+        <component :is="thisView"></component>
+        <button @click="handleView('A')">按钮1</button>
+        <button @click="handleView('B')">按钮2</button>
+        <button @click="handleView('C')">按钮3</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        // 需求：通过点击不同的按钮切换不同的视图
+        Vue.component('componentA',{
+            template: '<div>华绒绒</div>'
+        })
+        Vue.component('componentB',{
+            template: '<div>华炸炸</div>'
+        })
+        Vue.component('componentC',{
+            template: '<div>华立风</div>'
+        })
+        var app = new Vue({
+            el: '#app',
+            data:{
+                thisView: 'componentA'
+            },
+            methods:{
+                handleView:function(tag){
+                    this.thisView = 'component' + tag;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
