@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>render函数的第二个参数</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <child></child>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.component('child',{
+            // render 函数第二个参数可选，第二个参数是数据对象即 Object
+            render:function(createElement){
+                return createElement({
+                    template: '<div>只去爱，不去想</div>'
+                },{
+                    'class':{
+                        hcy: true,
+                        hat: false
+                    },
+                    style:{
+                        color:'gold',
+                        fontSize: '16px'
+                    },
+                    // attrs 正常的html特性
+                    attrs:{
+                        id: 'xiLou',
+                        src: 'https://baidu.com'
+                    },
+                    // domProps 用来写原生的 DOM 属性
+                    domProps:{
+                        innerHTML:'<span style="color:red">人世间一角</span>'
+                    }
+                })
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+           
+        })
+    </script>
+</body>
+</html>

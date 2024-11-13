@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>render函数的第二个参数</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <child></child>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.component('child',{
+            // render 函数第三个参数可选，数据类型可以是 String | Array----是我们用来构建函数的子节点的
+            render:function(createElement){
+                // 因为第二个参数必须是对象，所有下面的数组表示的是第三个元素
+               return createElement('div',[
+                  createElement('h1','我是h1标题'), // div 的子节点
+                  createElement('h6','我是h6标题')  // div 的子节点
+               ])
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+           
+        })
+    </script>
+</body>
+</html>

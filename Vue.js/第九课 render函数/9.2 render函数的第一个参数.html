@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>render函数的第一个参数</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 在render函数的方法中，参数必须是 createElement, createElement 的类型是 function -->
+        <child></child>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.component('child',{
+            render:function(createElement){
+                // render函数的第一个参数可以是 String | Object | Function，第一个参数必选
+                // String---html标签
+                // Object---一个含有数据选项的对象
+                // Function---方法返回一个含有数据选项的对象
+               //return createElement('h1')
+               /*return createElement({
+                   template:'<div>华神</div>'
+               })*/
+              var domFunction = function(){
+                return {
+                    template: '<div>温暖的房子</div>'
+                }
+              }
+              return createElement(domFunction())
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+           
+        })
+    </script>
+</body>
+</html>

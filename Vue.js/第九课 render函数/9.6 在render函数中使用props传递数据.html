@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 400px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <button @click="switchShow">点我切换图片</button> {{show}}
+       <my-component :show="show"></my-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        // 需求：点击按钮切换图片
+        Vue.component('my-component',{
+            props:['show'],
+            render:function(createElement){
+                    var imgSrc;
+                    if(this.show){
+                        imgSrc = '001.jpg'
+                    }else{
+                        imgSrc = '002.jpg'
+                    }
+                    return createElement('img',{
+                        attrs:{
+                            img: imgSrc
+                        },
+                        style:{
+                            width: '200px',
+                            height: '400px'
+                        }
+                    })
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data:{
+                show: false
+            },
+            methods:{
+                switchShow:function(){
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+</html>

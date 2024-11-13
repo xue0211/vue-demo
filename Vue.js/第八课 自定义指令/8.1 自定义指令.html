@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            border: 2px solid goldenrod;
+            width: 600px;
+            height: 300px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 3px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        未获取焦点：<input type="text"><br><br>
+        获取焦点： <input type="text" v-focus><br>
+        <hr>
+        binding 中的参数 + vnode 虚拟节点 <br>
+        <div v-hcy:xilou.a.b.c="obq"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        Vue.directive('focus', {
+            // 指令的选项
+            // inserted 被绑定元素插入父节点时调用（父节点存在即可调用）
+            inserted: function (el) {
+                // el指令所绑定的元素，可以用来直接操作 DOM，
+                // 插入到父节点时就直接获取焦点
+                el.focus()
+
+            }
+        })
+        Vue.directive('hcy',{
+            // bind 只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时
+            // 执行一次的初始化动作
+            // vnode: 查看所有虚拟节点
+            bind:function(el, binding, vnode){
+                var keys = [];
+                for( var key in vnode){
+                    keys.push(key);
+                }
+              el.innerHTML = 
+                 'name'+'----------------' + binding.name + '<br>' + // 自定义指令的名字
+                 'value'+'----------------' + binding.value + '<br>' + // 自定义指令所绑定的值
+                 'expression'+'----------------' + binding.expression + '<br>' + // 自定义指令所绑定的值的表达式
+                 'argument'+'----------------' + binding.arg + '<br>' + // 传递给自定义指令的参数
+                 'modifiers'+'----------------' + JSON.stringify(binding.modifiers) + '<br>' + // 包含修饰符的对象
+                 'vnode中的keys'+'----------------' + keys.join("--") + '<br>' 
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                a: '我是value',
+                obq: '我是自定义指令所绑定的值'
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <my-component>
+            <p>怪诞心理学</p>
+            <p>忒修斯的船</p>
+            <h3 slot="header">我是标题</h3>
+            <h5 slot="footer">我是文章的最后一段</h5>
+        </my-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        // 第三个参数存的就是 VNODE 虚拟节点
+        Vue.component('my-component',{
+            render:function(createElement){
+                var header = this.$slots.header  // 返回含有 VNODE 的数组
+                var footer = this.$slots.footer
+                var main = this.$slots.default
+                return createElement('div',[
+                    createElement('header', header), // 返回的是VNODE
+                    createElement('main', main), // 返回的是VNODE
+                    createElement('footer', footer) // 返回的是VNODE
+
+                ]);
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data:{}
+        })
+    </script>
+</body>
+</html>

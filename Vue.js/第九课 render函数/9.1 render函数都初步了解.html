@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+             border: 2px solid goldenrod;
+             width: 600px;
+             height: 300px;
+             font-weight: 700;
+             font-size: 16px;
+             padding: 3px;
+             margin: 0 auto;
+             margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <child  :level="level">
+            我是花花
+        </child>
+    </div>
+    <!-- <template id="hDom">
+        template 下面只允许有一个子节点，解决方法：用一个<div>包裹起来
+    <div>
+       <h1 v-if="level === 1">
+         <slot></slot>
+       </h1>
+       <h2 v-if="level === 2">
+         <slot></slot>
+       </h2>
+       <h3 v-if="level === 3">
+         <slot></slot>
+       </h3>
+    </div>
+    </template> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+    // 使用 Vue 组件定义
+        // Vue.component('child',{
+        //     props:['level'],
+        //     template: '#hDom'
+        // })
+        // 使用 render 函数定义组件
+        Vue.component('child',{
+            render:function(createElement){
+                return createElement('h'+ this.level,
+                    this.$slots.default);
+            },
+            props:['level']
+        })
+        var app = new Vue({
+            el: '#app',
+            data:{
+                level: 2
+            }
+        })
+    </script>
+</body>
+</html>
